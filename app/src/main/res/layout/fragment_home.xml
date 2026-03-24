@@ -79,17 +79,20 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipHoy"
-            style="@style/Widget.Material3.Chip.Assist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Hoy (1)"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipUrgente"
-            style="@style/Widget.Material3.Chip.Assist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Urgente (2)"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipTodas"
-            style="@style/Widget.Material3.Chip.Assist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Todas (3)"/>
     </com.google.android.material.chip.ChipGroup>
 
@@ -97,6 +100,7 @@
         android:id="@+id/recyclerTasks"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:padding="12dp"
         app:layout_constraintTop_toBottomOf="@id/chipGroup"
         app:layout_constraintBottom_toBottomOf="parent"
