@@ -69,18 +69,27 @@
                     android:textStyle="bold" />
 
                 <ProgressBar
+                    android:id="@+id/progressStats"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:max="10"
-                    android:progress="7"
+                    android:max="100"
+                    android:progress="0"
                     android:layout_marginTop="8dp" />
 
                 <TextView
+                    android:id="@+id/tvCompletedStats"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7 de 10 esta semana"
+                    android:text="0 de 0 tareas completadas"
                     android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/tvPendingStats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 tareas pendientes"
+                    android:layout_marginTop="4dp"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

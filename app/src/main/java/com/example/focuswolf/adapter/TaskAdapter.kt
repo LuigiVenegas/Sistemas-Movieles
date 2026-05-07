@@ -11,7 +11,7 @@ import com.example.focuswolf.R
 import com.example.focuswolf.model.Task
 
 class TaskAdapter(
-    private val tasks: List<Task>,
+    private val tasks: MutableList<Task>,
     private val onEditClick: ((Task) -> Unit)? = null,
     private val onDeleteClick: ((Task) -> Unit)? = null
 ) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
@@ -45,4 +45,25 @@ class TaskAdapter(
     }
 
     override fun getItemCount(): Int = tasks.size
+
+    fun addTask(task: Task) {
+        tasks.add(task)
+        notifyItemInserted(tasks.size - 1)
+    }
+
+    fun removeTask(task: Task) {
+        val index = tasks.indexOf(task)
+        if (index != -1) {
+            tasks.removeAt(index)
+            notifyItemRemoved(index)
+        }
+    }
+
+    fun updateTask(oldTask: Task, newTask: Task) {
+        val index = tasks.indexOf(oldTask)
+        if (index != -1) {
+            tasks[index] = newTask
+            notifyItemChanged(index)
+        }
+    }
 }

@@ -12,14 +12,15 @@ import com.example.focuswolf.adapter.ProjectAdapter
 import com.example.focuswolf.model.Project
 import com.example.focuswolf.ui.dialog.NewProjectDialogFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.focuswolf.data.FakeData
 
 class ProjectsFragment : Fragment() {
 
-    private val sampleProjects = listOf(
-        Project("Sistemas Móviles", 10, 5),
-        Project("Diseño UX", 8, 6),
-        Project("Universidad", 6, 2),
-        Project("FocusWolf App", 12, 9)
+    private val projectNames = listOf(
+        "Sistemas Móviles",
+        "Diseño UX",
+        "Universidad",
+        "FocusWolf App"
     )
 
     override fun onCreateView(
@@ -29,16 +30,35 @@ class ProjectsFragment : Fragment() {
     ): View = inflater.inflate(R.layout.fragment_projects, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val projects = projectNames.map { name ->
+
+            val tasks = FakeData.tasks.filter { it.project == name }
+
+            val total = tasks.size
+            val completed = tasks.count { it.state == "Hecha" || it.completed }
+
+            Project(name, total, completed)
+        }
+
         val recyclerProjects = view.findViewById<RecyclerView>(R.id.recyclerProjects)
         val fabAddProject = view.findViewById<FloatingActionButton>(R.id.fabAddProject)
 
         recyclerProjects.layoutManager = LinearLayoutManager(requireContext())
-        recyclerProjects.adapter = ProjectAdapter(sampleProjects) { project ->
+        recyclerProjects.adapter = ProjectAdapter(projects) { project ->
+            val fragment = ProjectDetailFragment()
+
+            val bundle = Bundle()
+            bundle.putString("projectName", project.name)
+            fragment.arguments = bundle
+
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, ProjectDetailFragment())
+                .replace(R.id.fragmentContainer, fragment)
                 .addToBackStack(null)
                 .commit()
         }
+
+        
 
         fabAddProject.setOnClickListener {
             NewProjectDialogFragment().show(parentFragmentManager, "NewProjectDialog")
