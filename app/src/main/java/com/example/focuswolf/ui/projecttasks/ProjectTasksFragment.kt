@@ -14,9 +14,15 @@ import com.example.focuswolf.model.Task
 class ProjectTasksFragment : Fragment() {
 
     private val tasks = mutableListOf(
-        Task("Investigar tema", "Sistemas Móviles", "20 feb", "P Alta", "Hecha", true),
-        Task("Crear wireframe", "Sistemas Móviles", "22 feb", "P Media", "En progreso"),
-        Task("Programar pantalla", "Sistemas Móviles", "24 feb", "P Alta", "Pendiente")
+        Task(
+            title = "...",
+            projectId = 1,
+            project = "...",
+            dueDate = "...",
+            priority = "...",
+            state = "...",
+            completed = false
+        )
     )
 
     override fun onCreateView(

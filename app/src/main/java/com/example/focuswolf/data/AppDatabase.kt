@@ -11,7 +11,8 @@ import com.example.focuswolf.data.entity.TaskEntity
 
 @Database(
     entities = [ProjectEntity::class, TaskEntity::class],
-    version = 1
+    version = 2,
+    exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
@@ -27,8 +28,10 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "focuswolf_database"
-                ).build()
+                    "focuswolf_database"    
+                )
+                .fallbackToDestructiveMigration()
+                .build()
 
                 INSTANCE = instance
                 instance

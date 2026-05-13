@@ -21,7 +21,7 @@ import com.example.focuswolf.data.AppDatabase
 import com.example.focuswolf.data.entity.TaskEntity
 import com.example.focuswolf.data.repository.TaskRepository
 import com.example.focuswolf.data.entity.toTask
-
+import com.example.focuswolf.data.entity.ProjectEntity
 
 
 private lateinit var taskAdapter: TaskAdapter
@@ -40,10 +40,30 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun seedDefaultProjects() {
+        lifecycleScope.launch {
+            val db = AppDatabase.getDatabase(requireContext())
+            val projectDao = db.projectDao()
+
+            if (projectDao.countProjects() == 0) {
+                projectDao.insertProject(ProjectEntity(name = "Sistemas Móviles"))
+                projectDao.insertProject(ProjectEntity(name = "Diseño UX"))
+                projectDao.insertProject(ProjectEntity(name = "Universidad"))
+                projectDao.insertProject(ProjectEntity(name = "FocusWolf App"))
+            }
+        }
+    }
+
     private val sampleTask = mutableListOf(
-    Task("Preparar presentación", "Sistemas Móviles", "23 feb", "P Alta", "Pendiente"),
-    Task("Terminar mockup", "Diseño UX", "25 feb", "P Media", "En progreso"),
-    Task("Subir evidencia", "Universidad", "27 feb", "P Alta", "Pendiente")
+        Task(
+            title = "...",
+            projectId = 1,
+            project = "...",
+            dueDate = "...",
+            priority = "...",
+            state = "...",
+            completed = false
+        )
     )
 
     private lateinit var taskAdapter: TaskAdapter
@@ -60,6 +80,8 @@ class HomeFragment : Fragment() {
         val db = AppDatabase.getDatabase(requireContext())
         repository = TaskRepository(db.taskDao())
 
+        seedDefaultProjects()
+
         recyclerTasks.layoutManager = LinearLayoutManager(requireContext())
         taskAdapter = TaskAdapter(
             FakeData.tasks,
@@ -70,12 +92,42 @@ class HomeFragment : Fragment() {
 
                 dialog.onTaskUpdated = { oldTask, updatedTask ->
                     taskAdapter.updateTask(oldTask, updatedTask)
+
+                    lifecycleScope.launch {
+
+                        repository.updateTask(
+                            TaskEntity(
+                                id = oldTask.id,
+                                title = updatedTask.title,
+                                projectId = updatedTask.projectId,
+                                dueDate = updatedTask.dueDate,
+                                priority = updatedTask.priority,
+                                state = updatedTask.state,
+                                completed = updatedTask.completed
+                            )
+                        )
+                    }
+
                 }
 
                 dialog.show(parentFragmentManager, "EditTaskDialog")
             },
             onDeleteClick = {
                 taskAdapter.removeTask(it)
+                lifecycleScope.launch {
+
+                    repository.deleteTask(
+                        TaskEntity(
+                            id = it.id,
+                            title = it.title,
+                            projectId = it.projectId,
+                            dueDate = it.dueDate,
+                            priority = it.priority,
+                            state = it.state,
+                            completed = it.completed
+                        )
+                    )
+                }
             }
         )
 
@@ -95,8 +147,9 @@ class HomeFragment : Fragment() {
 
                     repository.insertTask(
                         TaskEntity(
+                            id = newTask.id,
                             title = newTask.title,
-                            project = newTask.project,
+                            projectId = newTask.projectId,
                             dueDate = newTask.dueDate,
                             priority = newTask.priority,
                             state = newTask.state,

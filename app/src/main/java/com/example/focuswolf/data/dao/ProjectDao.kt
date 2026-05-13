@@ -10,14 +10,14 @@ import com.example.focuswolf.data.entity.ProjectEntity
 @Dao
 interface ProjectDao {
 
+    @Query("SELECT COUNT(*) FROM projects")
+    suspend fun countProjects(): Int
+
     @Query("SELECT * FROM projects")
     suspend fun getAllProjects(): List<ProjectEntity>
 
     @Insert
-    suspend fun insertProject(project: ProjectEntity)
-
-    @Update
-    suspend fun updateProject(project: ProjectEntity)
+    suspend fun insertProject(project: ProjectEntity): Long
 
     @Delete
     suspend fun deleteProject(project: ProjectEntity)

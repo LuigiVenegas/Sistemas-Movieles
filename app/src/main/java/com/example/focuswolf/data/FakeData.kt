@@ -4,8 +4,14 @@ import com.example.focuswolf.model.Task
 
 object FakeData {
     val tasks = mutableListOf(
-        Task("Preparar presentación", "Sistemas Móviles", "23 feb", "P Alta", "Pendiente", false),
-        Task("Terminar mockup", "Diseño UX", "25 feb", "P Media", "En progreso", false),
-        Task("Subir evidencia", "Universidad", "27 feb", "P Alta", "Pendiente", false)
+        Task(
+            title = "Preparar presentación",
+            projectId = 1,
+            project = "Sistemas Móviles",
+            dueDate = "23 feb",
+            priority = "P Alta",
+            state = "Pendiente",
+            completed = false
+        )
     )
 }

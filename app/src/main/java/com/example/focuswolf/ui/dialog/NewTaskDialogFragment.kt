@@ -77,6 +77,7 @@ class NewTaskDialogFragment : DialogFragment() {
 
                 val newTask = Task(
                     title = etTitle.text.toString(),
+                    projectId = 1,
                     project = projectName,
                     dueDate = etDate.text.toString(),
                     priority = priorityText,
